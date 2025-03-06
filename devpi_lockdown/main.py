@@ -184,8 +184,8 @@ def _auth_check_request(request):
         "Authcheck Unauthorized for %s (%s)",
         request.url, request.matched_route.name)
     user_agent = request.user_agent or ""
-    if 'devpi-client' in user_agent:
-        # devpi-client needs to know for proper error messages
+    if any(client in user_agent for client in ['devpi-client', 'uv/']):
+        # devpi-client and uv need to know for proper error messages
         return HTTPForbidden()
     return HTTPUnauthorized()
 
